@@ -261,7 +261,7 @@ function fetchResult(response) {
     "use strict";
     document.getElementById('outputBox1').innerHTML = response.output1;
     document.getElementById('outputBox2').innerHTML = response.output2;
-    document.getElementById('resultContainer').innerHTML += printLines(response.deltaCount);
+    //document.getElementById('lineSpace').innerHTML = printLines(response.deltaCount);
     showModal('visible');
 }
 

@@ -33,7 +33,7 @@ textarea {
 }
 .lineText {
     width: 420px;
-    font-size: 11px;
+    font-size: 10px;
     font-family:"Lucida Console";
 }
 #outputBox2 {
@@ -59,4 +59,7 @@ textarea {
 .deletedEmpty {
     height: 3px;
     background-color: #000000;
+}
+#lineSpace {
+    width:2px;
 }
