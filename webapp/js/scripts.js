@@ -1,11 +1,11 @@
 var global_data = [];
 global_data.push({
-    lineNumber : 0,
-    blankLines : 0
+    lineNumber:0,
+    blankLines:0
 });
 global_data.push({
-    lineNumber : 0,
-    blankLines : 0
+    lineNumber:0,
+    blankLines:0
 });
 
 function showModal(visible) {
@@ -179,20 +179,20 @@ function driverFunction(input1, input2, deltaObj, response) {
     for (key in deltaObj) {
         if (Object.prototype.hasOwnProperty.call(deltaObj, key)) { // filter
             switch (deltaObj[key].operation) {
-            case 'a':
-                response = addedText(deltaObj[key].delta, input1, input2, response);
-                response.deltaCount.a += 1;
-                break;
-            case 'c':
-                response = changedText(deltaObj[key].delta, input1, input2, response);
-                response.deltaCount.c += 1;
-                break;
-            case 'd':
-                response = deletedText(deltaObj[key].delta, input1, input2, response);
-                response.deltaCount.d += 1;
-                break;
-            default:
-                break;
+                case 'a':
+                    response = addedText(deltaObj[key].delta, input1, input2, response);
+                    response.deltaCount.a += 1;
+                    break;
+                case 'c':
+                    response = changedText(deltaObj[key].delta, input1, input2, response);
+                    response.deltaCount.c += 1;
+                    break;
+                case 'd':
+                    response = deletedText(deltaObj[key].delta, input1, input2, response);
+                    response.deltaCount.d += 1;
+                    break;
+                default:
+                    break;
             }
         }
     }
@@ -210,11 +210,15 @@ function getLineDimensions(id1, id2) {
     "use strict";
     var leftTable = document.getElementById(id1),
         rightTable = document.getElementById(id2),
+        leftDiv = document.getElementById('outputBox1'),
+        rightdiv = document.getElementById('outputBox2'),
         dimensions = {
-            x1 : leftTable.offsetLeft + leftTable.offsetWidth,
-            x2 : rightTable.offsetLeft,
-            y1 : leftTable.offsetTop + (leftTable.offsetHeight / 2),
-            y2 : rightTable.offsetTop + (rightTable.offsetHeight / 2)
+            /*x1 : leftDiv.offsetLeft + leftDiv.offsetWidth,
+             x2 : rightdiv.offsetLeft,*/
+            x1:0,
+            x2:127,
+            y1:leftTable.offsetTop + (leftTable.offsetHeight / 2),
+            y2:rightTable.offsetTop + (rightTable.offsetHeight / 2)
         };
     return dimensions;
 }
@@ -261,7 +265,7 @@ function fetchResult(response) {
     "use strict";
     document.getElementById('outputBox1').innerHTML = response.output1;
     document.getElementById('outputBox2').innerHTML = response.output2;
-    //document.getElementById('lineSpace').innerHTML = printLines(response.deltaCount);
+    document.getElementById('lineSpace').innerHTML = printLines(response.deltaCount);
     showModal('visible');
 }
 
@@ -272,12 +276,12 @@ function printResult(res) {
         input1 = (document.getElementById('input1').value).split("\n"),
         input2 = (document.getElementById('input2').value).split("\n"),
         response = {
-            output1 : "<table id='output1'>",
-            output2 : "<table id='output2'>",
-            deltaCount : {
-                c : 0,
-                d : 0,
-                a : 0
+            output1:"<table id='output1'>",
+            output2:"<table id='output2'>",
+            deltaCount:{
+                c:0,
+                d:0,
+                a:0
             }
         };
     response = driverFunction(input1, input2, obj, response);
