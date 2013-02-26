@@ -1,69 +1,70 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-    <title>Diff of two text Files</title>
-    <script type="text/javascript" src="js/scripts.js"></script>
-    <link rel="stylesheet" href="css/styles.css" type="text/css">
-    <link rel="stylesheet" href="css/bootstrap.css" type="text/css">
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Diff of two text Files</title>
+<script type="text/javascript" src="js/scripts.js"></script>
+<link rel="stylesheet" href="css/styles.css" type="text/css">
+<link rel="stylesheet" href="css/bootstrap.css" type="text/css">
 </head>
 <body class="well">
-<div id="container" class="container-fluid">
-    <div id="header" class="text-center">
-    	<h4>
-            Diff of Two Text Files
-            <hr />
-        </h4>
-    </div>
-    <div class="container">
-        <div class="span6">
-            <textarea id="input1" class="span6" rows="20">
+	<div id="container" class="container-fluid">
+		<div id="header" class="text-center">
+			<hr>
+			<h4>Diff of Two Text Files</h4>
+			<hr/>
+		</div>
+		<div class="container">
+			<div class="span6">
+				<textarea id="input1" class="span6" rows="20">
 
             </textarea>
-            <input id="file1" type="file" class="span4"/>
-        </div>
-        <div class="offset6">
-            <textarea id="input2" class="span6" rows="20">
+				<input id="file1" type="file" class="span4" />
+			</div>
+			<div class="offset6">
+				<textarea id="input2" class="span6" rows="20">
 
             </textarea>
-            <input id="file2" type="file" class="span4"/>
-        </div>
-    </div>
-    <div id="controller">
-        <div class="controls-row">
-            <hr>
-            <div class="span7"></div>
-            <button class="btn" onclick="computeDiff()">Compute Diff</button>
-        </div>
-    </div>
-</div>
-<div id="transparentBox" onclick="hideModal(true);">
-    <div id="resultContainer" class="well" onclick="hideModal(false);">
-        <div class="row text-center">
-            <button type="button" class="close" onclick="showModal('hidden');">×</button>
-            <h3 id="resultContainerLabel">Diff Of two Inputs</h3>
-        </div>
-        <div class="row">
-            <div id="outputBox1" class="span6 outputBox">
-                <table>
-                    <tr>
-                        <td class="lineNumber">1.</td>
-                        <td class="lineText">this is span6 left column....................................... .......................ssssssssss sssssssssssssssssssssss ssssssssssssssss</td>
-                    </tr>
-                </table>
-            </div>
-            <div id="lineSpace">sgfjnskldfjsalkjfdlksadjflkasjdflkasjd lkfjaslkdfjaslkfdjlkas fskfdjalk</div>
-            <div id="outputBox2" class="span6 outputBox">
-                this is span6 righy column............................. ................................dddddddd ddddddddddddddddddddddddddd dddddddddddddddddd
-            </div>
-        </div>
-    </div>
-</div>
+				<input id="file2" type="file" class="span4" />
+			</div>
+		</div>
+		<div id="controller">
+			<div class="controls-row">
+				<hr>
+				<div class="span7"></div>
+				<button class="btn" onclick="computeDiff()">Compute Diff</button>
+			</div>
+		</div>
+	</div>
+	<div id="transparentBox" onclick="hideModal(true);">
+		<div id="resultContainer" class="well" onclick="hideModal(false);">
+			<div class="row text-center">
+				<button type="button" class="close" onclick="showModal('hidden');">×</button>
+				<h3 id="resultContainerLabel">Diff Of two Inputs</h3>
+			</div>
+			<div class="row">
+				<div id="outputBox1" class="span6 outputBox">
+					<table>
+						<tr>
+							<td class="lineNumber">1.</td>
+							<td class="lineText">this is span6 left
+								column.......................................
+								......................</td>
+						</tr>
+					</table>
+				</div>
+				<div id="lineSpace"></div>
+				<div id="outputBox2" class="span6 outputBox">this is span6
+					right column.............................
+					...............................</div>
+			</div>
+		</div>
+	</div>
 </body>
 <script>
-    document.getElementById('file1').addEventListener('change',
-            readSingleFile1, false);
-    document.getElementById('file2').addEventListener('change',
-            readSingleFile2, false);
+	document.getElementById('file1').addEventListener('change',
+			readSingleFile1, false);
+	document.getElementById('file2').addEventListener('change',
+			readSingleFile2, false);
 </script>
 </html>
