@@ -17,7 +17,7 @@ textarea {
 #resultContainer {
     opacity:1;
     display: block;
-    width: 1020px;
+    width: 1100px;
     margin: 0px auto;
 }
 .outputBox {
@@ -34,7 +34,7 @@ textarea {
 .lineText {
     width: 420px;
     font-size: 11px;
-    font-family:"Lucida Console";
+    font-family:sans-serif;
 }
 #outputBox2 {
     float: right;
@@ -59,4 +59,8 @@ textarea {
 .deletedEmpty {
     height: 3px;
     background-color: #000000;
+}
+#lineSpace {
+    margin: 0 auto;
+    float: left;
 }
