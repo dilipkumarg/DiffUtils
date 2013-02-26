@@ -80,11 +80,13 @@ function printText(inputData, limitString, operation, input, id) {
     "use strict";
     var res = "<tbody id='" + id + "'>",
         limit = Number(limitString),
+        text = "",
         i = 0;
     for (i = global_data[input].lineNumber; i < limit; i += 1) {
         res += "<tr class='" + operation + "'>";
         res += "<td class='lineNumber'>" + (i + global_data[input].blankLines) + "</td>";
-        res += "<td class='lineText'>" + inputData[i + global_data[input].blankLines] + "</td>";
+        text = inputData[i + global_data[input].blankLines];
+        res += "<td class='lineText'>" + text + "</td>";
         res += "</tr>";
         if (inputData[i + global_data[input].blankLines] === "") {
             global_data[input].blankLines += 1;
@@ -215,7 +217,7 @@ function driverFunction(input1, input2, deltaObj, response) {
 
 function getLine(x1, y1, x2, y2) {
     "use strict";
-    var res = "<line x1=" + x1 + " y1=" + y1 + " x2=" + x2 + " y2=" + y2 + " style='stroke:rgb(255, 0, 0);stroke - width:2'/>";
+    var res = "<line x1=" + x1 + " y1=" + y1 + " x2=" + x2 + " y2=" + y2 + " style='stroke:rgb(0, 0, 0);stroke - width:1'/>";
     return res;
 }
 
