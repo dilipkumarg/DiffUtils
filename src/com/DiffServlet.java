@@ -1,25 +1,17 @@
 package com;
 
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.LinkedList;
-import java.util.List;
-
+import java.io.*;
+import java.util.*;
+import java.util.logging.*;
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import difflib.Delta;
-import difflib.Patch;
+import javax.servlet.http.*;
+import org.json.*;
+import difflib.*;
 
 public class DiffServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
+	static Logger logger=Logger.getLogger(DiffServlet.class.getName());
 
 	protected final void doPost(final HttpServletRequest request,
 			final HttpServletResponse response) throws ServletException,
@@ -31,9 +23,6 @@ public class DiffServlet extends HttpServlet {
 		final List<String> firstFileList = convetToList(firstFile);
 		final List<String> secondFileList = convetToList(secondFile);
 		
-		System.out.println(firstFileList+"\n"+secondFileList);
-		
-
 		final DiffLibrary diff = new DiffLibrary();
 		final Patch deltaPatch = diff.recieveFiles(firstFileList,
 				secondFileList);
@@ -61,8 +50,7 @@ public class DiffServlet extends HttpServlet {
 				}
 			}
 		} catch (JSONException e) {
-			java.util.logging.Logger.getLogger(DiffServlet.class.getName())
-					.log(java.util.logging.Level.SEVERE, null, e);
+			logger.log(Level.SEVERE, null, e);
 		}
 		return listInput;
 	}
@@ -77,8 +65,7 @@ public class DiffServlet extends HttpServlet {
 						deltaAsObject(delta, firstFileList, secondFileList));
 			}
 		} catch (JSONException e) {
-			java.util.logging.Logger.getLogger(DiffServlet.class.getName())
-					.log(java.util.logging.Level.SEVERE, null, e);
+			logger.log(Level.SEVERE, null, e);
 		}
 		return jArray;
 	}
@@ -87,18 +74,10 @@ public class DiffServlet extends HttpServlet {
 			final List<String> firstFileList, final List<String> secondFileList) {
 		final JSONObject objectDelta = new JSONObject();
 		try {
-			// obj.put("first1", delta.getOriginal().getPosition());
-			// obj.put("last1", delta.getOriginal().last());
-			// obj.put("size1", delta.getOriginal().size());
-			// obj.put("first2", delta.getRevised().getPosition());
-			// obj.put("last2", delta.getRevised().last());
-			// obj.put("size2", delta.getRevised().size());
 			objectDelta.put("operation", decideOperation(delta));
-			System.out.println(createDelta(delta));
 			objectDelta.put("delta", createDelta(delta));
 		} catch (JSONException e) {
-			java.util.logging.Logger.getLogger(DiffServlet.class.getName())
-					.log(java.util.logging.Level.SEVERE, null, e);
+			logger.log(Level.SEVERE, null, e);
 		}
 		return objectDelta;
 	}

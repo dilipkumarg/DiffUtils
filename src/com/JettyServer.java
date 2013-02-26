@@ -1,5 +1,7 @@
 package com;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.mortbay.jetty.Connector;
 import org.mortbay.jetty.Server;
 import org.mortbay.jetty.bio.SocketConnector;
@@ -9,6 +11,7 @@ import org.mortbay.jetty.webapp.WebAppContext;
 
 public final class JettyServer {
 	private static Server server = new Server();
+	static Logger logger = Logger.getLogger(JettyServer.class.getName());
 
 	private JettyServer() {
 
@@ -31,8 +34,7 @@ public final class JettyServer {
 			server.start();
 			server.join();
 		} catch (Exception e) {
-			java.util.logging.Logger.getLogger(JettyServer.class.getName())
-					.log(java.util.logging.Level.SEVERE, null, e);
+			logger.log(Level.SEVERE, null, e);
 		}
 	}
 

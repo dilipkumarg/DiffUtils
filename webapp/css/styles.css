@@ -10,7 +10,7 @@ textarea {
     width:100%;
     height:auto;
     z-index: 1000;
-    opacity: 0.9;
+    opacity: 0.99;
     filter:alpha(opacity=80); /*for ie browser*/
     background-color: #000000;
 }
@@ -52,10 +52,10 @@ textarea {
     background-color: #c2ccd1;
 }
 .deletedText {
-    background-color:red;
+    background-color:salmon;
 }
 .addedText {
-    background-color: green;
+    background-color: lightgreen;
 }
 .addedEmpty {
     height: 3px;

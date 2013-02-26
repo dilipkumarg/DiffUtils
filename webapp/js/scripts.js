@@ -1,12 +1,12 @@
 var global_data = [];
 var hidemodal = true;
 global_data.push({
-    lineNumber:0,
-    blankLines:0
+    lineNumber : 0,
+    blankLines : 0
 });
 global_data.push({
-    lineNumber:0,
-    blankLines:0
+    lineNumber : 0,
+    blankLines : 0
 });
 
 function showModal(visible) {
@@ -15,26 +15,25 @@ function showModal(visible) {
 }
 
 function hideModal(hide) {
-    if(!hide) {
+    "use strict";
+    if (!hide) {
         hidemodal = false;
-    }
-    else {
-        if(!hidemodal){
-            hidemodal = true;
-        } else {
-            showModal('hidden');
-        }
+    } else if (!hidemodal) {
+        hidemodal = true;
+    } else {
+        showModal('hidden');
     }
 }
+
 function readSingleFile1(evt) {
     "use strict";
     // Retrieve the first (and only!) File from the FileList object
     var f = evt.target.files[0],
         tokens = f.name.split('.'),
-        extension = tokens[tokens.length - 1];
+        extension = tokens[tokens.length - 1],
+        r = new FileReader();
     if (extension.match("txt") || extension.match("java")) {
         if (f) {
-            var r = new FileReader();
             r.onload = function (e) {
                 document.getElementById('input1').value = e.target.result;
             };
@@ -52,10 +51,10 @@ function readSingleFile2(evt) {
     // Retrieve the first (and only!) File from the FileList object
     var f = evt.target.files[0],
         tokens = f.name.split('.'), // to find the extension of a file
-        extension = tokens[tokens.length - 1];
+        extension = tokens[tokens.length - 1],
+        r = new FileReader();
     if (extension.match("txt") || extension.match("java")) {
         if (f) {
-            var r = new FileReader();
             r.onload = function (e) {
                 document.getElementById('input2').value = e.target.result;
             };
@@ -190,24 +189,24 @@ function deletedText(delta, input1, input2, response) {
 //This is the function for calling different functions based on the delta's
 function driverFunction(input1, input2, deltaObj, response) {
     "use strict";
-    var key;
+    var key = "";
     for (key in deltaObj) {
         if (Object.prototype.hasOwnProperty.call(deltaObj, key)) { // filter
             switch (deltaObj[key].operation) {
-                case 'a':
-                    response = addedText(deltaObj[key].delta, input1, input2, response);
-                    response.deltaCount.a += 1;
-                    break;
-                case 'c':
-                    response = changedText(deltaObj[key].delta, input1, input2, response);
-                    response.deltaCount.c += 1;
-                    break;
-                case 'd':
-                    response = deletedText(deltaObj[key].delta, input1, input2, response);
-                    response.deltaCount.d += 1;
-                    break;
-                default:
-                    break;
+            case 'a':
+                response = addedText(deltaObj[key].delta, input1, input2, response);
+                response.deltaCount.a += 1;
+                break;
+            case 'c':
+                response = changedText(deltaObj[key].delta, input1, input2, response);
+                response.deltaCount.c += 1;
+                break;
+            case 'd':
+                response = deletedText(deltaObj[key].delta, input1, input2, response);
+                response.deltaCount.d += 1;
+                break;
+            default:
+                break;
             }
         }
     }
@@ -217,7 +216,7 @@ function driverFunction(input1, input2, deltaObj, response) {
 
 function getLine(x1, y1, x2, y2) {
     "use strict";
-    var res = "<line x1=" + x1 + " y1=" + y1 + " x2=" + x2 + " y2=" + y2 + " style='stroke:rgb(0, 0, 0);stroke - width:1'/>";
+    var res = "<line x1=" + x1 + " y1=" + y1 + " x2=" + x2 + " y2=" + y2 + " style='stroke:rgb(0, 0, 0);stroke - width:2'/>";
     return res;
 }
 
@@ -227,13 +226,13 @@ function getLineDimensions(id1, id2) {
         rightTable = document.getElementById(id2),
         leftDiv = document.getElementById('outputBox1'),
         rightDiv = document.getElementById('outputBox2'),
-        dim = leftDiv.offsetLeft + leftDiv.offsetWidth;
-    var dimensions = {
-        x1:(dim - dim),
-        x2:(rightDiv.offsetLeft - dim),
-        y1:leftTable.offsetTop + (leftTable.offsetHeight / 2),
-        y2:rightTable.offsetTop + (rightTable.offsetHeight / 2)
-    };
+        dim = leftDiv.offsetLeft + leftDiv.offsetWidth,
+        dimensions = {
+            x1 : (dim - dim),
+            x2 : (rightDiv.offsetLeft - dim),
+            y1 : leftTable.offsetTop + (leftTable.offsetHeight / 2),
+            y2 : rightTable.offsetTop + (rightTable.offsetHeight / 2)
+        };
     return dimensions;
 }
 
@@ -290,12 +289,12 @@ function printResult(res) {
         input1 = (document.getElementById('input1').value).split("\n"),
         input2 = (document.getElementById('input2').value).split("\n"),
         response = {
-            output1:"<table id='output1'>",
-            output2:"<table id='output2'>",
-            deltaCount:{
-                c:0,
-                d:0,
-                a:0
+            output1 : "<table id='output1'>",
+            output2 : "<table id='output2'>",
+            deltaCount : {
+                c : 0,
+                d : 0,
+                a : 0
             }
         };
     response = driverFunction(input1, input2, obj, response);
