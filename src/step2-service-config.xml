@@ -1,0 +1,75 @@
+<?xml version="1.0"?> 
+<!DOCTYPE Configure PUBLIC "-//Mort Bay Consulting//DTD Configure 1.2//EN" "http://jetty.mortbay.org/configure_1_2.dtd">
+
+<!--
+configure the main Server object:
+Jetty uses reflection to create/configure objects.  You can setup an entire embedded
+server with a few lines of code and an XML file to do the heavy lifting.
+-->
+
+
+<Configure class="org.mortbay.jetty.Server">
+
+	<!--
+	create a network listener
+	-->
+
+	<Call name="addListener">
+		<Arg>
+			<New class="org.mortbay.http.SocketListener">
+
+				<Set name="Host">
+					<SystemProperty name="service.listen.host" default="localhost" />
+
+					<!--
+					you can also use the "default" attr in case a given System
+					property is unspecified.
+					
+					I could have done that here, but that would have
+					required putting the defaults in two places: here and in the
+					code, since this app is designed to make calls to its embedded
+					container
+					-->
+
+				</Set>
+
+				<Set name="Port">
+					<SystemProperty name="service.listen.port" default="7501" />
+				</Set>
+
+			</New>
+		</Arg>
+	</Call>
+
+
+	<Call name="getContext">
+
+		<!--
+		arg(s) for the Server#getContext() method
+		If the specified context doesn't yet exist, the first call to getContext()
+		creates it.
+		-->
+
+		<Arg>/embed</Arg>
+
+
+		<!--
+		call methods on the return value of Server#getContext()
+		-->
+
+		<Call name="addServlet">
+
+			<!-- servlet name -->
+			<Arg>"Simple"</Arg>
+
+			<!-- URL pattern -->
+			<Arg>/TryThis/*</Arg>
+
+			<!-- servlet class -->
+			<Arg>sample.SimpleServlet</Arg>
+
+		</Call>
+
+	</Call>
+
+</Configure>
