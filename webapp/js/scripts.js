@@ -1,4 +1,5 @@
 var global_data = [];
+var hidemodal = true;
 global_data.push({
     lineNumber:0,
     blankLines:0
@@ -13,6 +14,18 @@ function showModal(visible) {
     document.getElementById("transparentBox").style.visibility = visible;
 }
 
+function hideModal(hide) {
+    if(!hide) {
+        hidemodal = false;
+    }
+    else {
+        if(!hidemodal){
+            hidemodal = true;
+        } else {
+            showModal('hidden');
+        }
+    }
+}
 function readSingleFile1(evt) {
     "use strict";
     // Retrieve the first (and only!) File from the FileList object
@@ -211,15 +224,14 @@ function getLineDimensions(id1, id2) {
     var leftTable = document.getElementById(id1),
         rightTable = document.getElementById(id2),
         leftDiv = document.getElementById('outputBox1'),
-        rightdiv = document.getElementById('outputBox2'),
-        dimensions = {
-            /*x1 : leftDiv.offsetLeft + leftDiv.offsetWidth,
-             x2 : rightdiv.offsetLeft,*/
-            x1:0,
-            x2:127,
-            y1:leftTable.offsetTop + (leftTable.offsetHeight / 2),
-            y2:rightTable.offsetTop + (rightTable.offsetHeight / 2)
-        };
+        rightDiv = document.getElementById('outputBox2'),
+        dim = leftDiv.offsetLeft + leftDiv.offsetWidth;
+    var dimensions = {
+        x1:(dim - dim),
+        x2:(rightDiv.offsetLeft - dim),
+        y1:leftTable.offsetTop + (leftTable.offsetHeight / 2),
+        y2:rightTable.offsetTop + (rightTable.offsetHeight / 2)
+    };
     return dimensions;
 }
 
