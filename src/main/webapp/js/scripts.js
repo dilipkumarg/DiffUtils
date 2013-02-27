@@ -70,13 +70,13 @@ function readSingleFile2(evt) {
 }
 
 /**
- * This is the main function for printing the text.
- * @param inputData
- * @param limit
- * @param operation
- * @param input
- * @return {String}
- */
+* This is the main function for printing the text.
+* @param inputData
+* @param limit
+* @param operation
+* @param input
+* @return {String}
+*/
 function printText(inputData, limitString, operation, input, id) {
     "use strict";
     var res = "<tbody id='" + id + "'>",
@@ -99,14 +99,14 @@ function printText(inputData, limitString, operation, input, id) {
 }
 
 /**
- * This function prints the lines those equal. The limit is supplied by the calling function
- * @param input1
- * @param input2
- * @param response
- * @param ib1
- * @param ib2
- * @return {*}
- */
+* This function prints the lines those equal. The limit is supplied by the calling function
+* @param input1
+* @param input2
+* @param response
+* @param ib1
+* @param ib2
+* @return {*}
+*/
 function printEqualText(input1, input2, response, ib1, ib2) {
     "use strict";
     response.output1 += printText(input1, ib1, "equal", 0);
@@ -149,8 +149,8 @@ function printDeletedText(input1, response, ib1) {
 }
 
 /*
- Below functions for printing added text in the second input.
- */
+Below functions for printing added text in the second input.
+*/
 function addedText(delta, input1, input2, response) {
     "use strict";
     //splitting the delta to get the desired information
@@ -162,8 +162,8 @@ function addedText(delta, input1, input2, response) {
 }
 
 /*
- below two functions for printing changed text.
- */
+below two functions for printing changed text.
+*/
 function changedText(delta, input1, input2, response) {
     "use strict";
     //splitting the delta to get the desired information
@@ -176,8 +176,8 @@ function changedText(delta, input1, input2, response) {
 }
 
 /*
- below two functions for printing deleted text.
- */
+below two functions for printing deleted text.
+*/
 function deletedText(delta, input1, input2, response) {
     "use strict";
     //splitting the delta to get the desired information
@@ -188,7 +188,8 @@ function deletedText(delta, input1, input2, response) {
     return response;
 }
 function route(input1, input2, deltaObj, response, key) {
-	switch (deltaObj[key].operation) {
+    "use strict";
+    switch (deltaObj[key].operation) {
     case 'a':
         response = addedText(deltaObj[key].delta, input1, input2, response);
         response.deltaCount.a += 1;
@@ -203,8 +204,8 @@ function route(input1, input2, deltaObj, response, key) {
         break;
     default:
         break;
-	}
-	return response;
+    }
+    return response;
 }
 //This is the function for calling different functions based on the delta's
 function driverFunction(input1, input2, deltaObj, response) {
@@ -212,7 +213,7 @@ function driverFunction(input1, input2, deltaObj, response) {
     var key = "";
     for (key in deltaObj) {
         if (Object.prototype.hasOwnProperty.call(deltaObj, key)) { // filter
-            	response = route(input1, input2, deltaObj, response, key);
+            response = route(input1, input2, deltaObj, response, key);
         }
     }
     response = printRemainingText(response, input1, input2);
@@ -242,59 +243,57 @@ function getLineDimensions(id1, id2) {
     return dimensions;
 }
 function addedLine(deltaCount) {
-	"use strict";
-	var dimensions = {},
-		lineCode = "",
-		id1 = "",
+    "use strict";
+    var dimensions = {},
+        lineCode = "",
+        id1 = "",
         id2 = "",
-		i = 0;
-	for (i = 0; i < deltaCount.a; i += 1) {
+        i = 0;
+    for (i = 0; i < deltaCount.a; i += 1) {
         id1 = "added-0-" + i;
         id2 = "added-1-" + i;
         dimensions = getLineDimensions(id1, id2);
         lineCode += getLine(dimensions.x1, dimensions.y1, dimensions.x2, dimensions.y2);
     }
-	return lineCode;
+    return lineCode;
 }
 function changedLine(deltaCount) {
-	"use strict";
-	var dimensions = {},
-	lineCode = "",
-	id1 = "",
-    id2 = "",
-	i = 0;
-	for (i = 0; i < deltaCount.c; i += 1) {
+    "use strict";
+    var dimensions = {},
+        lineCode = "",
+        id1 = "",
+        id2 = "",
+        i = 0;
+    for (i = 0; i < deltaCount.c; i += 1) {
         id1 = "changed-0-" + i;
         id2 = "changed-1-" + i;
         dimensions = getLineDimensions(id1, id2);
         lineCode += getLine(dimensions.x1, dimensions.y1, dimensions.x2, dimensions.y2);
     }
-	return lineCode;
+    return lineCode;
 }
 function deletedLine(deltaCount) {
-	"use strict";
-	var dimensions = {},
-	lineCode = "",
-	id1 = "",
-    id2 = "",
-	i = 0;
-	for (i = 0; i < deltaCount.d; i += 1) {
+    "use strict";
+    var dimensions = {},
+        lineCode = "",
+        id1 = "",
+        id2 = "",
+        i = 0;
+    for (i = 0; i < deltaCount.d; i += 1) {
         id1 = "deleted-0-" + i;
         id2 = "deleted-1-" + i;
         dimensions = getLineDimensions(id1, id2);
         lineCode += getLine(dimensions.x1, dimensions.y1, dimensions.x2, dimensions.y2);
     }
-	return lineCode;
+    return lineCode;
 }
 
 function printLines(deltaCount) {
     "use strict";
     var lineCode = "<svg xmlns='http://www.w3.org/2000/svg' version='1.1'>";
-    
     lineCode += addedLine(deltaCount);
     lineCode += deletedLine(deltaCount);
     lineCode += changedLine(deltaCount);
-   
     lineCode += "</svg>";
     return lineCode;
 }
