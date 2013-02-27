@@ -187,6 +187,9 @@ function deletedText(delta, input1, input2, response) {
     response = printDeletedText(input1, response, boundsInput1);
     return response;
 }
+function route(input1, input2, deltaObj, response) {
+	
+}
 
 //This is the function for calling different functions based on the delta's
 function driverFunction(input1, input2, deltaObj, response) {
