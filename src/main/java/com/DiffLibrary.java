@@ -1,4 +1,4 @@
-package com;
+package main.java.com;
 
 import java.util.List;
 import difflib.*;
