@@ -1,13 +1,15 @@
+//These are the variables are used throughout the application
 var global_data = [];
+global_data.push({
+    lineNumber : 0,
+    blankLines : 0
+});
+global_data.push({
+    lineNumber : 0,
+    blankLines : 0
+});
+//This variable required to identify the request coming from which div
 var hidemodal = true;
-global_data.push({
-    lineNumber : 0,
-    blankLines : 0
-});
-global_data.push({
-    lineNumber : 0,
-    blankLines : 0
-});
 
 function showModal(visible) {
     "use strict";
@@ -79,17 +81,15 @@ function printText(inputData, limitString, operation, input, id) {
     "use strict";
     var res = "<tbody id='" + id + "'>",
         limit = Number(limitString),
-        text = "",
         i = 0;
     for (i = global_data[input].lineNumber; i < limit; i += 1) {
         res += "<tr class='" + operation + "'>";
         res += "<td class='lineNumber'>" + (i + global_data[input].blankLines) + "</td>";
-        text = inputData[i + global_data[input].blankLines];
-        res += "<td class='lineText'>" + text + "</td>";
+        res += "<td class='lineText'>" + inputData[i + global_data[input].blankLines] + "</td>";
         res += "</tr>";
         if (inputData[i + global_data[input].blankLines] === "") {
-            global_data[input].blankLines += 1;
-            i -= 1;
+            global_data[input].blankLines += 1;//increasing the blank line count
+            i -= 1;//decreasing the line count to skip blank lines
             global_data[input].lineNumber -= 1;
         }
         global_data[input].lineNumber += 1; //updating new line number
@@ -123,6 +123,7 @@ function printRemainingText(response, input1, input2) {
 
 function printAddedText(input2, response, ib2) {
     "use strict";
+    //added empty line to the output1
     response.output1 += "<tr id='added-0-" + response.deltaCount.a + "' class='addedEmpty'></tr>";
     var id = "added-1-" + response.deltaCount.a;
     response.output2 += printText(input2, (Number(ib2[(ib2.length) - 1])) + 1, "addedText", 1, id);
@@ -141,13 +142,14 @@ function printChangedText(input1, input2, response, bounds1, bounds2) {
 function printDeletedText(input1, response, ib1) {
     "use strict";
     var id = "deleted-0-" + response.deltaCount.d;
+  //adding empty line to output2
     response.output1 += printText(input1, (Number(ib1[(ib1.length) - 1])) + 1, "deletedText", 0, id);
     response.output2 += "<tr id='deleted-1-" + response.deltaCount.d + "' class='deletedEmpty'></tr>";
     return response;
 }
 
 /*
- Below two functions for printing added text in the second input.
+ Below functions for printing added text in the second input.
  */
 function addedText(delta, input1, input2, response) {
     "use strict";
@@ -230,37 +232,66 @@ function getLineDimensions(id1, id2) {
         dimensions = {
             x1 : (dim - dim),
             x2 : (rightDiv.offsetLeft - dim),
-            y1 : leftTable.offsetTop + (leftTable.offsetHeight / 2),
-            y2 : rightTable.offsetTop + (rightTable.offsetHeight / 2)
+            //5 is the margin of tables
+            y1 : leftTable.offsetTop + (leftTable.offsetHeight / 2) + 5,
+            y2 : rightTable.offsetTop + (rightTable.offsetHeight / 2) + 5
         };
     return dimensions;
 }
-
-function printLines(deltaCount) {
-    "use strict";
-    var dimensions = {},
-        id1 = "",
+function addedLine(deltaCount) {
+	"use strict";
+	var dimensions = {},
+		lineCode = "",
+		id1 = "",
         id2 = "",
-        lineCode = "<svg xmlns='http://www.w3.org/2000/svg' version='1.1'>",
-        i;
-    for (i = 0; i < deltaCount.a; i += 1) {
+		i = 0;
+	for (i = 0; i < deltaCount.a; i += 1) {
         id1 = "added-0-" + i;
         id2 = "added-1-" + i;
         dimensions = getLineDimensions(id1, id2);
-        lineCode += getLine(dimensions.x1, dimensions.y1, dimensions.x2, dimensions.y2);
+        lineCode = getLine(dimensions.x1, dimensions.y1, dimensions.x2, dimensions.y2);
     }
-    for (i = 0; i < deltaCount.c; i += 1) {
+	return lineCode;
+}
+function changedLine(deltaCount) {
+	"use strict";
+	var dimensions = {},
+	lineCode = "",
+	id1 = "",
+    id2 = "",
+	i = 0;
+	for (i = 0; i < deltaCount.c; i += 1) {
         id1 = "changed-0-" + i;
         id2 = "changed-1-" + i;
         dimensions = getLineDimensions(id1, id2);
-        lineCode += getLine(dimensions.x1, dimensions.y1, dimensions.x2, dimensions.y2);
+        lineCode = getLine(dimensions.x1, dimensions.y1, dimensions.x2, dimensions.y2);
     }
-    for (i = 0; i < deltaCount.d; i += 1) {
+	return lineCode;
+}
+function deletedLine(deltaCount) {
+	"use strict";
+	var dimensions = {},
+	lineCode = "",
+	id1 = "",
+    id2 = "",
+	i = 0;
+	for (i = 0; i < deltaCount.d; i += 1) {
         id1 = "deleted-0-" + i;
         id2 = "deleted-1-" + i;
         dimensions = getLineDimensions(id1, id2);
         lineCode += getLine(dimensions.x1, dimensions.y1, dimensions.x2, dimensions.y2);
     }
+	return lineCode;
+}
+
+function printLines(deltaCount) {
+    "use strict";
+    var lineCode = "<svg xmlns='http://www.w3.org/2000/svg' version='1.1'>";
+    
+    lineCode += addedLine(deltaCount);
+    lineCode += deletedLine(deltaCount);
+    lineCode += changedLine(deltaCount);
+   
     lineCode += "</svg>";
     return lineCode;
 }
