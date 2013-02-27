@@ -187,32 +187,32 @@ function deletedText(delta, input1, input2, response) {
     response = printDeletedText(input1, response, boundsInput1);
     return response;
 }
-function route(input1, input2, deltaObj, response) {
-	
+function route(input1, input2, deltaObj, response, key) {
+	switch (deltaObj[key].operation) {
+    case 'a':
+        response = addedText(deltaObj[key].delta, input1, input2, response);
+        response.deltaCount.a += 1;
+        break;
+    case 'c':
+        response = changedText(deltaObj[key].delta, input1, input2, response);
+        response.deltaCount.c += 1;
+        break;
+    case 'd':
+        response = deletedText(deltaObj[key].delta, input1, input2, response);
+        response.deltaCount.d += 1;
+        break;
+    default:
+        break;
+	}
+	return response;
 }
-
 //This is the function for calling different functions based on the delta's
 function driverFunction(input1, input2, deltaObj, response) {
     "use strict";
     var key = "";
     for (key in deltaObj) {
         if (Object.prototype.hasOwnProperty.call(deltaObj, key)) { // filter
-            switch (deltaObj[key].operation) {
-            case 'a':
-                response = addedText(deltaObj[key].delta, input1, input2, response);
-                response.deltaCount.a += 1;
-                break;
-            case 'c':
-                response = changedText(deltaObj[key].delta, input1, input2, response);
-                response.deltaCount.c += 1;
-                break;
-            case 'd':
-                response = deletedText(deltaObj[key].delta, input1, input2, response);
-                response.deltaCount.d += 1;
-                break;
-            default:
-                break;
-            }
+            	response = route(input1, input2, deltaObj, response, key);
         }
     }
     response = printRemainingText(response, input1, input2);
@@ -252,7 +252,7 @@ function addedLine(deltaCount) {
         id1 = "added-0-" + i;
         id2 = "added-1-" + i;
         dimensions = getLineDimensions(id1, id2);
-        lineCode = getLine(dimensions.x1, dimensions.y1, dimensions.x2, dimensions.y2);
+        lineCode += getLine(dimensions.x1, dimensions.y1, dimensions.x2, dimensions.y2);
     }
 	return lineCode;
 }
@@ -267,7 +267,7 @@ function changedLine(deltaCount) {
         id1 = "changed-0-" + i;
         id2 = "changed-1-" + i;
         dimensions = getLineDimensions(id1, id2);
-        lineCode = getLine(dimensions.x1, dimensions.y1, dimensions.x2, dimensions.y2);
+        lineCode += getLine(dimensions.x1, dimensions.y1, dimensions.x2, dimensions.y2);
     }
 	return lineCode;
 }
